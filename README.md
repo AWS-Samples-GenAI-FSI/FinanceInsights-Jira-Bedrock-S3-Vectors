@@ -133,23 +133,6 @@ Remove all AWS resources:
 python3 deployment/cleanup.py
 ```
 
-## Project Structure
-
-```
-├── assets/demo.gif             # Application demo
-├── deployment/
-│   ├── jira_pipeline.py        # Complete data pipeline
-│   └── cleanup.py              # AWS resources cleanup
-├── source/
-│   ├── streamlit/main_app.py   # Streamlit web application
-│   ├── config/                 # Industry configuration
-│   ├── jira/                   # Jira API integration
-│   ├── vector_store/           # S3 Vector Engine client
-│   ├── bedrock/                # Bedrock utilities
-│   └── utils/                  # Helper utilities
-└── requirements.txt            # Python dependencies
-```
-
 ## Use Cases
 
 ### Industry Applications
