@@ -147,12 +147,12 @@ See [CONTRIBUTING](CONTRIBUTING.md) for more information.
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
+## License
+
+This library is licensed under the Apache License 2.0. See the LICENSE file.
+
 ## Authors
 
 - Shashi Makkapati
 - Senthil Kamala Rathinam
 - Jacob Scheatzle
-
-## License
-
-This library is licensed under the Apache License 2.0. See the LICENSE file.
