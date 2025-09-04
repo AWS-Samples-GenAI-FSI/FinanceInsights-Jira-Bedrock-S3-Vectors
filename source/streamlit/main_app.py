@@ -123,6 +123,8 @@ if 'setup_complete' not in st.session_state:
     st.session_state.setup_complete = False
 if 'setup_running' not in st.session_state:
     st.session_state.setup_running = False
+if 'setup_mode' not in st.session_state:
+    st.session_state.setup_mode = 'existing'
 
 def check_setup_status():
     """Check if initial setup is complete"""
@@ -142,11 +144,23 @@ def check_setup_status():
     except:
         return False
 
-def run_initial_setup():
+def run_initial_setup(mode="existing"):
     """Run the initial ETL pipeline setup"""
     try:
         import subprocess
         import sys
+        
+        if mode == "demo":
+            # First generate demo tickets
+            demo_result = subprocess.run(
+                [sys.executable, 'source/utils/jira_bulk_loader.py'],
+                capture_output=True,
+                text=True,
+                timeout=180  # 3 minute timeout for demo generation
+            )
+            
+            if demo_result.returncode != 0:
+                return False, f"Demo data generation failed: {demo_result.stderr}"
         
         # Run the pipeline script
         result = subprocess.run(
@@ -157,12 +171,13 @@ def run_initial_setup():
         )
         
         if result.returncode == 0:
-            return True, "Setup completed successfully!"
+            ticket_count = "100+" if mode == "demo" else "your"
+            return True, f"Setup completed successfully! Processed {ticket_count} tickets with AI embeddings."
         else:
             return False, f"Setup failed: {result.stderr}"
             
     except subprocess.TimeoutExpired:
-        return False, "Setup timed out after 5 minutes"
+        return False, "Setup timed out - please check your Jira connection and try again"
     except Exception as e:
         return False, f"Setup error: {str(e)}"
 
@@ -446,32 +461,63 @@ if not st.session_state.setup_complete and not st.session_state.setup_running:
     if not check_setup_status():
         st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Welcome to FinanceInsights!</div>', unsafe_allow_html=True)
         
-        st.info("🚀 First time setup: This will extract your Jira tickets and set up the AI pipeline (takes ~2 minutes)")
+        st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.2rem; color: #6b7280; text-align: center; margin-bottom: 2rem;">Choose your setup option:</div>', unsafe_allow_html=True)
         
-        if st.button("🔧 Run Initial Setup", type="primary"):
-            st.session_state.setup_running = True
-            st.rerun()
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown('<div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin: 0.5rem;"><h4 style="color: #1f2937; margin-top: 0;">🏢 Use Your Jira Tickets</h4><p style="color: #6b7280; font-size: 0.9rem;">Extract and analyze your existing Jira tickets with financial context and AI insights.</p></div>', unsafe_allow_html=True)
+            
+            if st.button("🚀 Setup with My Jira Data", type="primary", use_container_width=True):
+                st.session_state.setup_mode = "existing"
+                st.session_state.setup_running = True
+                st.rerun()
+        
+        with col2:
+            st.markdown('<div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin: 0.5rem;"><h4 style="color: #1f2937; margin-top: 0;">🎯 Demo Mode</h4><p style="color: #6b7280; font-size: 0.9rem;">Generate realistic financial services demo tickets for testing and exploration.</p></div>', unsafe_allow_html=True)
+            
+            if st.button("📊 Setup Demo Environment", use_container_width=True):
+                st.session_state.setup_mode = "demo"
+                st.session_state.setup_running = True
+                st.rerun()
+        
+        st.markdown("---")
+        st.markdown('<div style="font-family: Inter, sans-serif; font-size: 0.9rem; color: #6b7280; text-align: center;"><strong>New to Jira?</strong> Choose Demo Mode to explore FinanceInsights with sample financial services tickets.</div>', unsafe_allow_html=True)
+        
     else:
         st.session_state.setup_complete = True
         st.rerun()
 
 # Show setup progress
 if st.session_state.setup_running:
-    st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Setting up your FinanceInsights environment...</div>', unsafe_allow_html=True)
+    mode = st.session_state.get('setup_mode', 'existing')
+    mode_text = "Demo Environment" if mode == "demo" else "Jira Integration"
+    
+    st.markdown(f'<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Setting up {mode_text}...</div>', unsafe_allow_html=True)
     
     progress_bar = st.progress(0)
     status_text = st.empty()
     
-    with st.spinner("Running ETL pipeline..."):
-        status_text.text("Extracting Jira tickets...")
-        progress_bar.progress(20)
+    with st.spinner(f"Running {mode_text.lower()} setup..."):
+        if mode == "demo":
+            status_text.text("Generating demo financial tickets...")
+            progress_bar.progress(30)
+        else:
+            status_text.text("Extracting your Jira tickets...")
+            progress_bar.progress(20)
         
-        success, message = run_initial_setup()
+        success, message = run_initial_setup(mode)
         
         if success:
             progress_bar.progress(100)
             status_text.text("Setup complete!")
             st.success(message)
+            
+            if mode == "demo":
+                st.info("🎉 Demo mode ready! You now have 100+ realistic financial services tickets to explore.")
+            else:
+                st.info("✅ Your Jira tickets are now enhanced with AI-powered financial risk analysis.")
+            
             st.session_state.setup_complete = True
             st.session_state.setup_running = False
             st.balloons()
@@ -480,8 +526,21 @@ if st.session_state.setup_running:
         else:
             st.error(message)
             st.session_state.setup_running = False
-            if st.button("🔄 Retry Setup"):
-                st.rerun()
+            
+            # Show helpful error guidance
+            if "jira" in message.lower() or "connection" in message.lower():
+                st.warning("💡 **Tip**: If you're having Jira connection issues, try Demo Mode to explore the application first.")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("🔄 Retry Setup"):
+                    st.rerun()
+            with col2:
+                if st.button("🔙 Back to Options"):
+                    for key in ['setup_running', 'setup_mode']:
+                        if key in st.session_state:
+                            del st.session_state[key]
+                    st.rerun()
 
 # Main content
 elif not st.session_state.pipeline_tickets:

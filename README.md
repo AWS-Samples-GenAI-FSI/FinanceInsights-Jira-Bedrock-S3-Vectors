@@ -107,15 +107,18 @@ Once the application is running, you can ask questions such as:
 - "What payment processing errors occurred?"
 
 ### How to Use
-1. **First Launch**: Click "Run Initial Setup" - this will automatically:
-   - Extract your Jira tickets
+1. **First Launch**: Choose your setup option:
+   - **Use Your Jira Tickets**: Extract and analyze your existing Jira tickets
+   - **Demo Mode**: Generate realistic financial services demo tickets for testing
+2. **Automatic Setup**: The app will automatically:
+   - Extract or generate tickets with financial context
    - Create AWS S3 buckets and vector storage
    - Generate AI embeddings
-   - Set up the complete pipeline (~2 minutes)
-2. **Load Data**: Click "Load Pipeline Data" to fetch processed tickets
-3. **Ask Questions**: Use natural language queries about your financial operations
-4. **Get Analysis**: Receive AI-powered risk analysis with ticket recommendations
-5. **Review Results**: Examine related tickets with urgency scoring and business impact
+   - Set up the complete pipeline (~2-3 minutes)
+3. **Load Data**: Click "Load Pipeline Data" to fetch processed tickets
+4. **Ask Questions**: Use natural language queries about your financial operations
+5. **Get Analysis**: Receive AI-powered risk analysis with ticket recommendations
+6. **Review Results**: Examine related tickets with urgency scoring and business impact
 
 ## Project Structure
 
@@ -174,8 +177,21 @@ Edit `config/financial_context.json` to customize for your organization:
 
 ## Advanced Features
 
-### Generating Test Data
-Generate test data for development:
+### Demo Mode vs. Real Data
+
+**Demo Mode** (Recommended for first-time users):
+- Generates 100+ realistic financial services tickets
+- Includes compliance, fraud, trading, and payment scenarios
+- Perfect for exploring FinanceInsights capabilities
+- No existing Jira tickets required
+
+**Your Jira Data**:
+- Analyzes your actual Jira tickets
+- Adds financial risk context to existing issues
+- Provides real insights for your organization
+- Requires configured Jira API access
+
+**Manual Demo Data Generation** (Optional):
 ```bash
 python3 source/utils/jira_bulk_loader.py
 ```
