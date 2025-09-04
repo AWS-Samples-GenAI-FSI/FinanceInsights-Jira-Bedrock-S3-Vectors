@@ -1,20 +1,24 @@
-# 🏦 FinanceInsights - Jira RAG Assistant
+# FinanceInsights - Jira RAG Assistant
 
-A powerful RAG (Retrieval-Augmented Generation) application for financial services that analyzes Jira tickets using Amazon Bedrock, S3 Vector Engine, and AI-powered insights for risk management and compliance analysis.
+This sample demonstrates how to build a Retrieval-Augmented Generation (RAG) application for financial services that analyzes Jira tickets using Amazon Bedrock, S3 Vector Engine, and AI-powered insights for risk management and compliance analysis.
 
-![FinanceInsights Demo](https://img.shields.io/badge/AWS-Bedrock-orange) ![S3 Vectors](https://img.shields.io/badge/S3-Vectors-blue) ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+## Overview
 
-## 🚀 Features
+FinanceInsights is a comprehensive solution that helps financial services organizations analyze their Jira tickets using natural language queries. The application leverages AWS services to provide intelligent insights into compliance risks, fraud patterns, and operational issues.
 
-- **🎫 Jira Integration**: Automatic ticket extraction and synchronization
-- **🔍 Hybrid Search**: S3 Vector Engine + Direct semantic search fallback
-- **💬 Natural Language Queries**: Ask questions in plain English about your tickets
-- **☁️ Serverless Architecture**: S3 Vector Engine for scalable vector storage
-- **🤖 AI-Powered Analysis**: Amazon Bedrock for embeddings and intelligent responses
-- **📊 Financial Risk Intelligence**: Compliance, fraud, and regulatory risk analysis
-- **🎨 Modern UI**: Stylish interface with professional typography
+### Key Features
 
-## 🏗️ Architecture
+- **Jira Integration**: Automatic ticket extraction and synchronization
+- **Hybrid Search**: S3 Vector Engine with direct semantic search fallback
+- **Natural Language Queries**: Ask questions in plain English about your tickets
+- **Serverless Architecture**: S3 Vector Engine for scalable vector storage
+- **AI-Powered Analysis**: Amazon Bedrock for embeddings and intelligent responses
+- **Financial Risk Intelligence**: Compliance, fraud, and regulatory risk analysis
+- **Modern UI**: Streamlit interface with professional styling
+
+
+
+## Architecture
 
 ```
 Jira API → Data Pipeline → S3 Storage → S3 Vector Engine → Bedrock AI → Streamlit UI
@@ -26,32 +30,48 @@ Jira API → Data Pipeline → S3 Storage → S3 Vector Engine → Bedrock AI �
 - **Amazon Bedrock**: Titan embeddings + Claude for analysis
 - **Streamlit**: Interactive web interface
 
-## 📋 Prerequisites
+## Prerequisites
 
 - AWS Account with Bedrock access (us-east-1 region)
 - Jira Cloud instance with API access
 - Python 3.8+
 - AWS CLI configured with appropriate permissions
 
-### Required AWS Services
-- Amazon Bedrock (Titan Embeddings, Claude models)
-- S3 Vector Engine (Preview)
-- S3 Storage
+### AWS Services Used
 
-## 🛠️ Quick Setup
+- **Amazon Bedrock**: For embeddings generation and AI analysis
+  - `amazon.titan-embed-text-v2:0` - Text embeddings
+  - `anthropic.claude-3-sonnet-20240229-v1:0` - Text generation
+- **Amazon S3**: For data storage and vector storage
+- **S3 Vector Engine**: For serverless vector search (Preview)
+- **AWS CLI**: For configuration and deployment
 
-### 1. Clone Repository
+## Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have:
+
+- An AWS account with appropriate permissions
+- AWS CLI configured with credentials
+- Python 3.8 or later installed
+- A Jira Cloud instance with API access
+- Access to Amazon Bedrock models in us-east-1 region
+
+### Installation
+
+1. **Clone the repository**
 ```bash
 git clone https://github.com/AWS-Samples-GenAI-FSI/FinanceInsights-Jira-Bedrock-S3-Vectors.git
 cd FinanceInsights-Jira-Bedrock-S3-Vectors
 ```
 
-### 2. Install Dependencies
+2. **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure Environment
+3. **Configure environment variables**
 ```bash
 cp .env.example .env
 ```
@@ -66,7 +86,7 @@ JIRA_EMAIL=your-email@company.com
 JIRA_API_TOKEN=your-jira-api-token
 ```
 
-### 4. Setup Data Pipeline
+4. **Initialize the data pipeline**
 ```bash
 python3 jira_pipeline.py
 ```
@@ -78,27 +98,29 @@ This will:
 - ✅ Store vectors in S3 Vector Engine
 - ✅ Add financial services organizational context
 
-### 5. Launch Application
+5. **Launch the application**
 ```bash
 streamlit run main_app.py
 ```
 
-## 🎯 Usage
+## Usage
 
-### Sample Financial Services Questions
+### Example Queries
+
+Once the application is running, you can ask questions such as:
 - "What compliance risks need immediate attention?"
 - "Show me fraud-related incidents this week"
 - "Which trading system issues are trending?"
 - "Find regulatory compliance violations"
 - "What payment processing errors occurred?"
 
-### Application Workflow
+### How to Use
 1. **Load Data**: Click "Load Pipeline Data" to fetch processed tickets
 2. **Ask Questions**: Use natural language queries about your financial operations
 3. **Get Analysis**: Receive AI-powered risk analysis with ticket recommendations
 4. **Review Results**: Examine related tickets with urgency scoring and business impact
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── main_app.py              # Streamlit web application
@@ -115,9 +137,9 @@ streamlit run main_app.py
 └── scripts/                 # Setup and utility scripts
 ```
 
-## ⚙️ Configuration
+## Configuration
 
-### Financial Context Customization
+### Customizing for Your Organization
 Edit `config/financial_context.json` to customize for your organization:
 
 ```json
@@ -133,28 +155,28 @@ Edit `config/financial_context.json` to customize for your organization:
 }
 ```
 
-### Jira API Token Setup
+### Setting up Jira API Access
 1. Go to Jira → Account Settings → Security → API Tokens
 2. Create new token
 3. Add to `.env` file
 
-## 🔧 Advanced Features
+## Advanced Features
 
-### Bulk Data Loading
+### Generating Test Data
 Generate test data for development:
 ```bash
 python3 jira_bulk_loader.py
 ```
 
-### Custom Business Logic
+### Business Intelligence Features
 The pipeline automatically adds financial context:
 - **Urgency Scoring**: 1-10 based on regulatory/customer impact
 - **Risk Assessment**: Marketplace, customer, compliance impact analysis
 - **Escalation Patterns**: Automatic priority classification
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
-### Common Issues
+### Common Issues and Solutions
 
 **S3 Vector Engine Access**
 - Ensure S3 Vector Engine is available in us-east-1
@@ -168,7 +190,7 @@ The pipeline automatically adds financial context:
 - Request access to Titan and Claude models in AWS Console
 - Ensure models are available in us-east-1 region
 
-### Error Resolution
+### Verification Commands
 ```bash
 # Check AWS credentials
 aws sts get-caller-identity
@@ -180,7 +202,9 @@ aws bedrock list-foundation-models --region us-east-1
 python3 -c "from src.jira.jira_client import JiraClient; print('Jira OK')"
 ```
 
-## 🤝 Contributing
+## Contributing
+
+See [CONTRIBUTING](CONTRIBUTING.md) for more information.
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -188,30 +212,34 @@ python3 -c "from src.jira.jira_client import JiraClient; print('Jira OK')"
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🏢 Use Cases
+## Use Cases
 
-### Financial Services Applications
+### Industry Applications
 - **Banks**: Compliance monitoring, fraud detection, customer issue analysis
 - **Fintech**: Payment system monitoring, regulatory compliance tracking
 - **Trading Firms**: Market risk analysis, system performance monitoring
 - **Insurance**: Claims processing, regulatory compliance, risk assessment
 
-### Key Benefits
+### Benefits
 - **Regulatory Compliance**: Automated compliance risk detection
 - **Operational Efficiency**: Quick identification of system issues
 - **Risk Management**: Proactive fraud and security monitoring
 - **Customer Impact**: Prioritized resolution of customer-affecting issues
 
-## 🆘 Support
+## Additional Resources
 
 - **Issues**: [GitHub Issues](https://github.com/AWS-Samples-GenAI-FSI/FinanceInsights-Jira-Bedrock-S3-Vectors/issues)
 - **Documentation**: [AWS Bedrock Documentation](https://docs.aws.amazon.com/bedrock/)
 - **S3 Vectors**: [S3 Vector Engine Guide](https://docs.aws.amazon.com/s3/latest/userguide/vector-search.html)
 
----
+## Security
 
-**Built with ❤️ for Financial Services by AWS**
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
