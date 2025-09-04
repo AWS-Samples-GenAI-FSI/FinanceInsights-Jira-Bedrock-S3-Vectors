@@ -126,6 +126,7 @@ Once the application is running, you can ask questions such as:
 ├── main_app.py              # Streamlit web application
 ├── jira_pipeline.py          # Complete data pipeline
 ├── jira_bulk_loader.py       # Bulk ticket creation tool
+├── cleanup.py               # AWS resources cleanup script
 ├── kb_setup.py              # Knowledge base utilities
 ├── config/
 │   └── financial_context.json # Industry-specific configuration
@@ -201,6 +202,21 @@ aws bedrock list-foundation-models --region us-east-1
 # Test Jira connection
 python3 -c "from src.jira.jira_client import JiraClient; print('Jira OK')"
 ```
+
+## Cleanup
+
+To remove all AWS resources created by this application:
+
+```bash
+python3 cleanup.py
+```
+
+This will delete:
+- S3 Vector Engine buckets and indexes
+- All stored tickets and embeddings
+- Pipeline data and configurations
+
+**Warning**: This action is irreversible.
 
 ## Contributing
 
