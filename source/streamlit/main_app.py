@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 # Load financial context
-with open('config/financial_context.json', 'r') as f:
+with open('source/config/financial_context.json', 'r') as f:
     FINANCIAL_CONFIG = json.load(f)
 
 # Page config
@@ -150,7 +150,7 @@ def run_initial_setup():
         
         # Run the pipeline script
         result = subprocess.run(
-            [sys.executable, 'jira_pipeline.py'],
+            [sys.executable, 'deployment/jira_pipeline.py'],
             capture_output=True,
             text=True,
             timeout=300  # 5 minute timeout

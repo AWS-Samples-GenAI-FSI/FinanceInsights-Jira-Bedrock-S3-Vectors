@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime
 from dotenv import load_dotenv
-from src.jira.jira_client import JiraClient
+from source.jira.jira_client import JiraClient
 
 # Load environment
 load_dotenv()

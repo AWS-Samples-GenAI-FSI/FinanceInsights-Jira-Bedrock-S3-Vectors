@@ -6,7 +6,7 @@ This sample demonstrates how to build a Retrieval-Augmented Generation (RAG) app
 
 FinanceInsights is a comprehensive solution that helps financial services organizations analyze their Jira tickets using natural language queries. The application leverages AWS services to provide intelligent insights into compliance risks, fraud patterns, and operational issues.
 
-![FinanceInsights Demo](demo.gif)
+![FinanceInsights Demo](assets/demo.gif)
 
 *Demo: Complete setup and usage workflow - from initial configuration to AI-powered financial risk analysis*
 
@@ -92,7 +92,7 @@ JIRA_API_TOKEN=your-jira-api-token
 
 4. **Launch the application**
 ```bash
-streamlit run main_app.py
+streamlit run source/streamlit/main_app.py
 ```
 
 ## Usage
@@ -120,19 +120,33 @@ Once the application is running, you can ask questions such as:
 ## Project Structure
 
 ```
-├── main_app.py              # Streamlit web application
-├── jira_pipeline.py          # Complete data pipeline
-├── jira_bulk_loader.py       # Bulk ticket creation tool
-├── cleanup.py               # AWS resources cleanup script
-├── kb_setup.py              # Knowledge base utilities
-├── config/
-│   └── financial_context.json # Industry-specific configuration
-├── src/
-│   ├── jira/jira_client.py   # Jira API integration
-│   ├── vector_store/s3_vectors.py # S3 Vector Engine client
-│   ├── bedrock/bedrock_helper.py # Bedrock utilities
-│   └── utils/               # Text processing utilities
-└── scripts/                 # Setup and utility scripts
+├── assets/
+│   └── demo.gif             # Application demo
+├── deployment/
+│   ├── jira_pipeline.py     # Complete data pipeline
+│   └── cleanup.py           # AWS resources cleanup script
+├── notebooks/               # Jupyter notebooks (future)
+├── source/
+│   ├── streamlit/
+│   │   └── main_app.py      # Streamlit web application
+│   ├── config/
+│   │   └── financial_context.json # Industry configuration
+│   ├── jira/
+│   │   └── jira_client.py   # Jira API integration
+│   ├── vector_store/
+│   │   └── s3_vectors.py    # S3 Vector Engine client
+│   ├── bedrock/
+│   │   └── bedrock_helper.py # Bedrock utilities
+│   ├── knowledge_base/
+│   │   └── bedrock_kb.py    # Knowledge base management
+│   ├── utils/
+│   │   ├── jira_bulk_loader.py # Bulk ticket creation
+│   │   ├── kb_setup.py      # Knowledge base utilities
+│   │   └── text_chunker.py  # Text processing
+│   └── lambda/              # AWS Lambda functions (future)
+├── requirements.txt         # Python dependencies
+├── .env.example            # Environment template
+└── README.md               # Project documentation
 ```
 
 ## Configuration
@@ -163,7 +177,7 @@ Edit `config/financial_context.json` to customize for your organization:
 ### Generating Test Data
 Generate test data for development:
 ```bash
-python3 jira_bulk_loader.py
+python3 source/utils/jira_bulk_loader.py
 ```
 
 ### Business Intelligence Features
@@ -205,7 +219,7 @@ python3 -c "from src.jira.jira_client import JiraClient; print('Jira OK')"
 To remove all AWS resources created by this application:
 
 ```bash
-python3 cleanup.py
+python3 deployment/cleanup.py
 ```
 
 This will delete:
