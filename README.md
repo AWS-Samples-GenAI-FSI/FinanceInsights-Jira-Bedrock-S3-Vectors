@@ -30,6 +30,20 @@ Data Source → S3 Storage → S3 Vector Engine → Bedrock AI → Streamlit UI
 - AWS Account with Bedrock access (us-east-1 region)
 - Python 3.8+
 - AWS CLI configured with appropriate permissions
+- Jira Cloud account (free tier works)
+
+### Setting up Jira with Sample Tickets
+
+If you don't have Jira tickets, create a free Jira account and populate it with sample data:
+
+1. **Create Jira account**: [Sign up at Atlassian](https://www.atlassian.com/software/jira/free)
+2. **Get API credentials**: Account Settings → Security → API Tokens
+3. **Generate sample tickets**:
+   ```bash
+   # After configuring .env with your Jira credentials
+   python3 source/utils/jira_bulk_loader.py
+   ```
+   This creates 100+ realistic financial services tickets in your Jira instance.
 
 ### AWS Services Used
 
@@ -57,10 +71,10 @@ Edit `.env`:
 ```env
 AWS_REGION=us-east-1
 
-# Optional: Only needed for your own Jira tickets
-# JIRA_URL=https://yourcompany.atlassian.net
-# JIRA_EMAIL=your-email@company.com
-# JIRA_API_TOKEN=your-jira-api-token
+# Jira Configuration
+JIRA_URL=https://yourcompany.atlassian.net
+JIRA_EMAIL=your-email@company.com
+JIRA_API_TOKEN=your-jira-api-token
 ```
 
 3. **Launch application**
