@@ -6,6 +6,10 @@ This sample demonstrates how to build a Retrieval-Augmented Generation (RAG) app
 
 FinanceInsights is a comprehensive solution that helps financial services organizations analyze their Jira tickets using natural language queries. The application leverages AWS services to provide intelligent insights into compliance risks, fraud patterns, and operational issues.
 
+![FinanceInsights Demo](demo.gif)
+
+*Demo: Complete setup and usage workflow - from initial configuration to AI-powered financial risk analysis*
+
 ### Key Features
 
 - **Jira Integration**: Automatic ticket extraction and synchronization
