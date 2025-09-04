@@ -1,0 +1,47 @@
+{
+  "industry": "Financial Services",
+  "app_name": "FinanceInsights",
+  "app_description": "Financial Services RAG Assistant for Risk & Compliance Analysis",
+  
+  "business_context": {
+    "critical_systems": [
+      "Payment processing",
+      "Trading platforms", 
+      "Risk management systems",
+      "Compliance monitoring",
+      "Customer onboarding",
+      "Fraud detection",
+      "Regulatory reporting"
+    ],
+    
+    "risk_indicators": {
+      "high_priority_keywords": ["fraud", "compliance", "regulatory", "audit", "security", "breach", "pci", "sox"],
+      "system_keywords": ["payment", "trading", "settlement", "clearing", "kyc", "aml"],
+      "customer_keywords": ["account", "transaction", "balance", "transfer", "deposit", "withdrawal"]
+    },
+    
+    "urgency_scoring": {
+      "regulatory_impact": 3,
+      "customer_funds_impact": 4,
+      "trading_impact": 3,
+      "compliance_impact": 3,
+      "fraud_risk": 4,
+      "system_outage": 2
+    },
+    
+    "escalation_patterns": {
+      "immediate": ["fraud", "security breach", "regulatory violation", "customer funds"],
+      "high": ["compliance", "audit", "trading system", "payment failure"],
+      "medium": ["performance", "ui issue", "reporting delay"]
+    }
+  },
+  
+  "sample_questions": [
+    "What compliance risks need immediate attention?",
+    "Show me fraud-related incidents this week",
+    "Which trading system issues are trending?", 
+    "Find regulatory compliance violations",
+    "What payment processing errors occurred?",
+    "Show me high-risk customer impact issues"
+  ]
+}
