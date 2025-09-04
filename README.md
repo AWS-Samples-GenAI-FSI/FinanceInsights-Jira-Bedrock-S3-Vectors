@@ -68,24 +68,6 @@ AWS_REGION=us-east-1
 streamlit run source/streamlit/main_app.py
 ```
 
-## Usage
-
-### Setup Options
-- **Demo Mode**: 100+ realistic financial tickets (recommended first try)
-- **Your Jira Data**: Analyze your actual tickets with AI insights
-
-### Example Queries
-- "What compliance risks need immediate attention?"
-- "Show me fraud-related incidents this week"
-- "Which trading system issues are trending?"
-- "Find regulatory compliance violations"
-
-### How to Use
-1. **Choose Setup**: Demo mode or your Jira tickets
-2. **One-Click Setup**: Automatic pipeline creation (~2-3 minutes)
-3. **Ask Questions**: Natural language queries about financial operations
-4. **Get AI Analysis**: Risk analysis with ticket recommendations
-
 ## Configuration
 
 ### Customizing for Your Organization
