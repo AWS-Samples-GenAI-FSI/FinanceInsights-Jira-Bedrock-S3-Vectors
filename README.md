@@ -86,19 +86,7 @@ JIRA_EMAIL=your-email@company.com
 JIRA_API_TOKEN=your-jira-api-token
 ```
 
-4. **Initialize the data pipeline**
-```bash
-python3 jira_pipeline.py
-```
-
-This will:
-- ✅ Extract Jira tickets with financial context
-- ✅ Create S3 buckets (`financial-jira-vectors-pipeline`, `financial-vectors-kb`)
-- ✅ Generate embeddings using Bedrock Titan
-- ✅ Store vectors in S3 Vector Engine
-- ✅ Add financial services organizational context
-
-5. **Launch the application**
+4. **Launch the application**
 ```bash
 streamlit run main_app.py
 ```
@@ -115,10 +103,15 @@ Once the application is running, you can ask questions such as:
 - "What payment processing errors occurred?"
 
 ### How to Use
-1. **Load Data**: Click "Load Pipeline Data" to fetch processed tickets
-2. **Ask Questions**: Use natural language queries about your financial operations
-3. **Get Analysis**: Receive AI-powered risk analysis with ticket recommendations
-4. **Review Results**: Examine related tickets with urgency scoring and business impact
+1. **First Launch**: Click "Run Initial Setup" - this will automatically:
+   - Extract your Jira tickets
+   - Create AWS S3 buckets and vector storage
+   - Generate AI embeddings
+   - Set up the complete pipeline (~2 minutes)
+2. **Load Data**: Click "Load Pipeline Data" to fetch processed tickets
+3. **Ask Questions**: Use natural language queries about your financial operations
+4. **Get Analysis**: Receive AI-powered risk analysis with ticket recommendations
+5. **Review Results**: Examine related tickets with urgency scoring and business impact
 
 ## Project Structure
 

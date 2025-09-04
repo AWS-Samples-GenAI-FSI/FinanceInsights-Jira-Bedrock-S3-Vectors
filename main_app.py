@@ -1,6 +1,7 @@
 import streamlit as st
 import boto3
 import json
+import time
 from datetime import datetime
 
 # Load financial context
@@ -118,6 +119,52 @@ if 'pipeline_tickets' not in st.session_state:
     st.session_state.pipeline_tickets = []
 if 'search_history' not in st.session_state:
     st.session_state.search_history = []
+if 'setup_complete' not in st.session_state:
+    st.session_state.setup_complete = False
+if 'setup_running' not in st.session_state:
+    st.session_state.setup_running = False
+
+def check_setup_status():
+    """Check if initial setup is complete"""
+    try:
+        s3_client = boto3.client('s3', region_name=REGION)
+        
+        # Check if pipeline bucket exists and has data
+        try:
+            response = s3_client.list_objects_v2(
+                Bucket=PIPELINE_S3_BUCKET,
+                Prefix='raw-tickets/',
+                MaxKeys=1
+            )
+            return 'Contents' in response and len(response['Contents']) > 0
+        except:
+            return False
+    except:
+        return False
+
+def run_initial_setup():
+    """Run the initial ETL pipeline setup"""
+    try:
+        import subprocess
+        import sys
+        
+        # Run the pipeline script
+        result = subprocess.run(
+            [sys.executable, 'jira_pipeline.py'],
+            capture_output=True,
+            text=True,
+            timeout=300  # 5 minute timeout
+        )
+        
+        if result.returncode == 0:
+            return True, "Setup completed successfully!"
+        else:
+            return False, f"Setup failed: {result.stderr}"
+            
+    except subprocess.TimeoutExpired:
+        return False, "Setup timed out after 5 minutes"
+    except Exception as e:
+        return False, f"Setup error: {str(e)}"
 
 def load_pipeline_tickets():
     """Load tickets from pipeline S3 bucket"""
@@ -394,10 +441,52 @@ with st.sidebar:
         st.metric("🏪 Marketplace Risk", marketplace_risks)
         st.metric("📋 Open Issues", open_tickets)
 
+# Auto-setup check
+if not st.session_state.setup_complete and not st.session_state.setup_running:
+    if not check_setup_status():
+        st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Welcome to FinanceInsights!</div>', unsafe_allow_html=True)
+        
+        st.info("🚀 First time setup: This will extract your Jira tickets and set up the AI pipeline (takes ~2 minutes)")
+        
+        if st.button("🔧 Run Initial Setup", type="primary"):
+            st.session_state.setup_running = True
+            st.rerun()
+    else:
+        st.session_state.setup_complete = True
+        st.rerun()
+
+# Show setup progress
+if st.session_state.setup_running:
+    st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Setting up your FinanceInsights environment...</div>', unsafe_allow_html=True)
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    with st.spinner("Running ETL pipeline..."):
+        status_text.text("Extracting Jira tickets...")
+        progress_bar.progress(20)
+        
+        success, message = run_initial_setup()
+        
+        if success:
+            progress_bar.progress(100)
+            status_text.text("Setup complete!")
+            st.success(message)
+            st.session_state.setup_complete = True
+            st.session_state.setup_running = False
+            st.balloons()
+            time.sleep(2)
+            st.rerun()
+        else:
+            st.error(message)
+            st.session_state.setup_running = False
+            if st.button("🔄 Retry Setup"):
+                st.rerun()
+
 # Main content
-if not st.session_state.pipeline_tickets:
+elif not st.session_state.pipeline_tickets:
     st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Load pipeline data to analyze escalation patterns</div>', unsafe_allow_html=True)
-    st.info("Click 'Load Pipeline Data' to fetch live Jira tickets with business intelligence.")
+    st.info("Click 'Load Pipeline Data' to fetch your processed Jira tickets.")
     
 else:
     st.markdown('<div style="font-family: Inter, sans-serif; font-size: 1.8rem; font-weight: 600; color: #374151; text-align: center; margin: 2rem 0;">Analyze escalation patterns and business risks</div>', unsafe_allow_html=True)
