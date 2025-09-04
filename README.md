@@ -1,5 +1,7 @@
 # FinanceInsights - Jira RAG Assistant
 
+**Authors:** Shashi Makkapati, Senthil Kamala Rathinam, Jacob Scheatzle
+
 This sample demonstrates how to build a Retrieval-Augmented Generation (RAG) application for financial services that analyzes Jira tickets using Amazon Bedrock, S3 Vector Engine, and AI-powered insights for risk management and compliance analysis.
 
 ## Overview
@@ -150,9 +152,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the Apache License 2.0. See the LICENSE file.
-
-## Authors
-
-- Shashi Makkapati
-- Senthil Kamala Rathinam
-- Jacob Scheatzle
