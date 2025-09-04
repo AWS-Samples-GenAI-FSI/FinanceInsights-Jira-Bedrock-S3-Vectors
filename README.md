@@ -48,8 +48,10 @@ If you don't have Jira tickets, create a free Jira account and populate it with 
 ### AWS Services Used
 
 - **Amazon Bedrock**: Titan embeddings + Claude for analysis
-- **S3 Vector Engine**: Serverless vector search (Preview)
+- **S3 Vector Engine**: Serverless vector search (**Preview** - requires access)
 - **Amazon S3**: Data storage and vector storage
+
+> **Note**: S3 Vector Engine is currently in preview. You may need to request access through AWS Support or your AWS account team.
 
 ## Getting Started
 
@@ -113,7 +115,7 @@ To use your Jira tickets instead of demo data:
 ### Common Issues
 
 **Bedrock Access**: Request access to Titan and Claude models in AWS Console
-**S3 Vector Engine**: Ensure available in us-east-1 region
+**S3 Vector Engine**: Service is in preview - request access if needed
 **Setup Fails**: Try demo mode first to verify AWS configuration
 
 ```bash
