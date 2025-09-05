@@ -23,7 +23,7 @@ FinanceInsights helps financial services organizations analyze support tickets u
 
 ## Architecture
 
-![Architecture Diagram](assets/architecture.jpg)
+<img src="assets/architecture.jpg" alt="Architecture Diagram" width="600">
 
 ```
 Data Source → S3 Storage → S3 Vector Engine → Bedrock AI → Streamlit UI
